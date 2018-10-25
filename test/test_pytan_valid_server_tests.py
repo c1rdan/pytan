@@ -8,7 +8,11 @@ The connection info is pulled from the SERVER_INFO dictionary in test/API_INFO.p
 These tests all use :mod:`ddt`, a package that provides for data driven tests via JSON files.
 """
 from __future__ import print_function
+from __future__ import absolute_import
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
 import sys
 
 # disable python from creating .pyc files everywhere
@@ -19,7 +23,7 @@ import glob
 import unittest
 import json  # noqa
 import csv
-import StringIO
+import io
 import tempfile
 
 my_file = os.path.abspath(sys.argv[0])
@@ -32,17 +36,17 @@ path_adds = [my_dir, lib_dir]
 
 import pytan
 import taniumpy
-import ddt
+from . import ddt
 
 # get our server connection info
-from API_INFO import SERVER_INFO
+from .API_INFO import SERVER_INFO
 
 # where the output files from the tests will be stored
 TEST_OUT = os.path.join(tempfile.gettempdir(), 'TEST_OUT')
 
 
 def chew_csv(c):
-    i = StringIO.StringIO(c)
+    i = io.StringIO(c)
     r = csv.reader(i)
     l = list(r)
     return l
@@ -140,7 +144,7 @@ class ValidServerTests(unittest.TestCase):
         export_str = handler.export_obj(**kwargs)
 
         self.assertTrue(export_str)
-        self.assertIsInstance(export_str, (str, unicode))
+        self.assertIsInstance(export_str, (str, str))
         export_str_list = chew_csv(export_str)
         spew(export_str_list[0])
         for x in tests:
@@ -172,7 +176,7 @@ class ValidServerTests(unittest.TestCase):
         export_str = handler.export_obj(**kwargs)
 
         self.assertTrue(export_str)
-        self.assertIsInstance(export_str, (str, unicode))
+        self.assertIsInstance(export_str, (str, str))
         for x in tests:
             spew("+++ EVAL TEST: %s" % x)
             self.assertTrue(eval(x))
@@ -202,7 +206,7 @@ class ValidServerTests(unittest.TestCase):
             self.assertGreaterEqual(len(ret['action_results'].columns), 1)
             self.assertTrue(ret['action_result_map'])
             self.assertIsNotNone(ret['poller_success'])
-            for ft in pytan.constants.EXPORT_MAPS['ResultSet'].keys():
+            for ft in list(pytan.constants.EXPORT_MAPS['ResultSet'].keys()):
                 report_file, result = handler.export_to_report_file(
                     obj=ret['action_results'],
                     export_format=ft,
@@ -222,7 +226,7 @@ class ValidServerTests(unittest.TestCase):
         method = value['method']
         args = value['args']
         t_obj = eval(value['taniumpyobj'])
-        delete_args = {str(k): str(v) for k, v in value['delete'].iteritems()}
+        delete_args = {str(k): str(v) for k, v in value['delete'].items()}
 
         s = (
             "+++ TESTING EXPECTED CREATE OBJECT SUCCESS Handler.{}() with kwargs {}"
@@ -321,7 +325,7 @@ class ValidServerTests(unittest.TestCase):
                 self.assertIsInstance(ret['question_results'], taniumpy.ResultSet)
                 self.assertGreaterEqual(len(ret['question_results'].rows), 1)
                 self.assertGreaterEqual(len(ret['question_results'].columns), 1)
-                for ft in pytan.constants.EXPORT_MAPS['ResultSet'].keys():
+                for ft in list(pytan.constants.EXPORT_MAPS['ResultSet'].keys()):
                     report_file, result = handler.export_to_report_file(
                         obj=ret['question_results'],
                         export_format=ft,
@@ -353,7 +357,7 @@ class ValidServerTests(unittest.TestCase):
         self.assertIsInstance(ret['question_results'], taniumpy.ResultSet)
         self.assertGreaterEqual(len(ret['question_results'].rows), 1)
         self.assertGreaterEqual(len(ret['question_results'].columns), 1)
-        for ft in pytan.constants.EXPORT_MAPS['ResultSet'].keys():
+        for ft in list(pytan.constants.EXPORT_MAPS['ResultSet'].keys()):
             report_file, result = handler.export_to_report_file(
                 obj=ret['question_results'],
                 export_format=ft,
@@ -386,7 +390,7 @@ class ValidServerTests(unittest.TestCase):
             spew("+++ EVAL TEST: %s" % x)
             self.assertTrue(eval(x))
 
-        for ft in pytan.constants.EXPORT_MAPS['BaseType'].keys():
+        for ft in list(pytan.constants.EXPORT_MAPS['BaseType'].keys()):
             report_file, result = handler.export_to_report_file(
                 obj=response, export_format=ft, report_dir=TEST_OUT,
                 prefix=sys._getframe().f_code.co_name + '_',

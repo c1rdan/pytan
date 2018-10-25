@@ -31,5 +31,5 @@ class CacheInfo(BaseType):
         self.errors = None
         
 
-from error_list import ErrorList
+from .error_list import ErrorList
 

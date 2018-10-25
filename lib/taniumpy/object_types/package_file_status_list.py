@@ -23,5 +23,5 @@ class PackageFileStatusList(BaseType):
         
         self.status = []
 
-from package_file_status import PackageFileStatus
+from .package_file_status import PackageFileStatus
 

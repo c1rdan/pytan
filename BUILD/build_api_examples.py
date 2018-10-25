@@ -3,6 +3,8 @@
 # ex: set tabstop=4
 # Please do not change the two lines above. See PEP 8, PEP 263.
 '''generates all of the examples from the test/ddt JSON files'''
+from __future__ import print_function
+from builtins import object
 __author__ = 'Jim Olsen (jim.olsen@tanium.com)'
 __version__ = '2.1.4'
 
@@ -43,7 +45,7 @@ api_info['host'] = "10.0.1.240"
 handler = pytan.handler.Handler(**api_info)
 platform_version = handler.get_server_version()
 is6_5 = handler.session.platform_is_6_5()
-print "Platform Version: {}".format(platform_version)
+print("Platform Version: {}".format(platform_version))
 
 BASIC_PY_CODE = script_definitions.BASIC_PY_CODE.format(**api_info)
 
@@ -91,7 +93,7 @@ class ExampleProcesser(object):
 
         for i in output_dirs:
             if os.path.isdir(i):
-                print "Deleting and re-making old output dir: {}".format(i)
+                print("Deleting and re-making old output dir: {}".format(i))
                 shutil.rmtree(i)
                 os.makedirs(i)
 
@@ -233,7 +235,7 @@ class ExampleProcesser(object):
         filename = self.build_py_filename(name)
         filepath = os.path.join(self.pytan_example_out_dir, filename)
         buildsupport.write_file(filepath, out)
-        os.chmod(filepath, 0755)
+        os.chmod(filepath, 0o755)
         self.py_examples.append({'filename': filename, 'desc': desc})
 
     def write_soap_file(self, name, out):
@@ -289,7 +291,7 @@ class ExampleProcesser(object):
     def build_args_str(self, args_name, args):
         args_template = '{}["{}"] = {}'.format
         args_str_list = [
-            args_template(args_name, k, pprint.pformat(v)) for k, v in args.iteritems()
+            args_template(args_name, k, pprint.pformat(v)) for k, v in args.items()
         ]
         args_str = '\n'.join(args_str_list)
         return args_str
@@ -309,10 +311,10 @@ class ExampleProcesser(object):
         ddt_tests = buildsupport.json_read(ddt)
         self.ddt_examples = []
 
-        for name, info in sorted(ddt_tests.items(), key=lambda x: x[1]['priority']):
+        for name, info in sorted(list(ddt_tests.items()), key=lambda x: x[1]['priority']):
             only_65 = info.get('6_5_only', False)
             if only_65 and not is6_5:
-                print "Skipping {} - not valid for 6.2 platform".format(name)
+                print("Skipping {} - not valid for 6.2 platform".format(name))
                 continue
 
             if 'invalid' in name and 'deploy' in name:
@@ -417,7 +419,7 @@ class ExampleProcesser(object):
 
         # all_json_files = all_json_files[0:1]
         for x in all_json_files:
-            print "Now processing ddt file: {}".format(x)
+            print("Now processing ddt file: {}".format(x))
             self.process_ddt(x)
 
         self.make_pytan_api_index()

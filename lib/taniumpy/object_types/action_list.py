@@ -25,7 +25,7 @@ class ActionList(BaseType):
         self.cache_info = None
         self.action = []
 
-from action_list_info import ActionListInfo
-from action import Action
-from cache_info import CacheInfo
+from .action_list_info import ActionListInfo
+from .action import Action
+from .cache_info import CacheInfo
 

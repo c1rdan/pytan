@@ -23,5 +23,5 @@ class ParseJobList(BaseType):
         
         self.parse_job = []
 
-from parse_job import ParseJob
+from .parse_job import ParseJob
 

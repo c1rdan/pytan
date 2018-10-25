@@ -23,5 +23,5 @@ class ErrorList(BaseType):
         
         self.error = []
 
-from xml_error import XmlError
+from .xml_error import XmlError
 

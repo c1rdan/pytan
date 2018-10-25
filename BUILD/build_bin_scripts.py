@@ -33,7 +33,7 @@ if __name__ == "__main__":
     buildsupport.clean_up(output_bin, '*.py')
     buildsupport.clean_up(output_winbin, '*.bat')
 
-    for script_name, script_def in script_definitions.scripts.iteritems():
+    for script_name, script_def in script_definitions.scripts.items():
         script_def.update(script_definitions.general_subs)
         script_def.update(script_definitions.script_templates)
         buildsupport.create_script(

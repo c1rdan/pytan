@@ -3,6 +3,11 @@
 # ex: set tabstop=4
 # Please do not change the two lines above. See PEP 8, PEP 263.
 """This is a regex based XML cleaner that will replace unsupported characters"""
+from __future__ import unicode_literals
+from builtins import hex
+from builtins import chr
+from builtins import str
+from builtins import range
 import sys
 import re
 import logging
@@ -74,21 +79,21 @@ for i in [hex(i) for i in range(1, 17)]:
         int('{}FFFF'.format(i), 0),
     ])
 
-XML_1_0_VALID_UNI = ['-'.join([unichr(y) for y in x]) for x in XML_1_0_VALID_HEX]
-INVALID_UNICODE_RAW_RE = ur'[^{}]'.format(''.join(XML_1_0_VALID_UNI))
+XML_1_0_VALID_UNI = ['-'.join([chr(y) for y in x]) for x in XML_1_0_VALID_HEX]
+INVALID_UNICODE_RAW_RE = r'[^{}]'.format(''.join(XML_1_0_VALID_UNI))
 """The raw regex string to use when replacing invalid characters"""
 
 INVALID_UNICODE_RE = re.compile(INVALID_UNICODE_RAW_RE, re.U)
 """The regex object to use when replacing invalid characters"""
 
-XML_1_0_RESTRICTED_UNI = ['-'.join([unichr(y) for y in x]) for x in XML_1_0_RESTRICTED_HEX]
-RESTRICTED_UNICODE_RAW_RE = ur'[{}]'.format(''.join(XML_1_0_RESTRICTED_UNI))
+XML_1_0_RESTRICTED_UNI = ['-'.join([chr(y) for y in x]) for x in XML_1_0_RESTRICTED_HEX]
+RESTRICTED_UNICODE_RAW_RE = r'[{}]'.format(''.join(XML_1_0_RESTRICTED_UNI))
 """The raw regex string to use when replacing restricted characters"""
 
 RESTRICTED_UNICODE_RE = re.compile(RESTRICTED_UNICODE_RAW_RE, re.U)
 """The regex object to use when replacing restricted characters"""
 
-DEFAULT_REPLACEMENT = u'\uFFFD'
+DEFAULT_REPLACEMENT = '\uFFFD'
 """The default character to use when replacing characters"""
 
 
@@ -168,7 +173,7 @@ def xml_cleaner(s, encoding='utf-8', clean_restricted=True, log_clean_messages=T
     str
         * the cleaned version of `s`
     """
-    if type(s) == str:
+    if type(s) == bytes:
         try:
             # if orig_str is not unicode, decode the string into unicode with encoding
             s = s.decode(encoding, 'xmlcharrefreplace')
@@ -186,7 +191,7 @@ def xml_cleaner(s, encoding='utf-8', clean_restricted=True, log_clean_messages=T
                         "ignoring errors"
                     ).format
                     mylog.warning(m())
-                s = unicode(s, 'utf-8', errors='ignore')
+                s = str(s, 'utf-8', errors='ignore')
 
     # encode the string as utf-8
     pass1 = s.encode('utf-8', 'xmlcharrefreplace')

@@ -1,7 +1,7 @@
 
 # Copyright (c) 2015 Tanium Inc
 #
-# Generated from console.wsdl version 0.0.1     
+# Generated from .console.wsdl version 0.0.1     
 #
 #
 
@@ -75,13 +75,13 @@ class SavedAction(BaseType):
         self.last_action = None
         
 
-from package_spec import PackageSpec
-from group import Group
-from group import Group
-from saved_action_policy import SavedActionPolicy
-from metadata_list import MetadataList
-from saved_action_row_id_list import SavedActionRowIdList
-from user import User
-from user import User
-from action import Action
+from .package_spec import PackageSpec
+from .group import Group
+from .group import Group
+from .saved_action_policy import SavedActionPolicy
+from .metadata_list import MetadataList
+from .saved_action_row_id_list import SavedActionRowIdList
+from .user import User
+from .user import User
+from .action import Action
 

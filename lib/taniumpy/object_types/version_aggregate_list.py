@@ -23,5 +23,5 @@ class VersionAggregateList(BaseType):
         
         self.version = []
 
-from version_aggregate import VersionAggregate
+from .version_aggregate import VersionAggregate
 

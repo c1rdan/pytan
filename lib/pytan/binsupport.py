@@ -3,6 +3,10 @@
 # ex: set tabstop=4
 # Please do not change the two lines above. See PEP 8, PEP 263.
 """Collection of classes and methods used throughout :mod:`pytan` for command line support"""
+from __future__ import print_function
+from builtins import input
+from builtins import str
+from builtins import object
 import sys
 
 # disable python from creating .pyc files everywhere
@@ -76,7 +80,7 @@ class HistoryConsole(code.InteractiveConsole):
             import readline
             self.readline = readline
             if self.debug:
-                print "imported readline: {}".format(readline.__file__)
+                print("imported readline: {}".format(readline.__file__))
         except:
             print (
                 "No readline support in this Python build, auto-completetion will not be enabled!"
@@ -84,7 +88,7 @@ class HistoryConsole(code.InteractiveConsole):
         else:
             import rlcompleter  # noqa
             if self.debug:
-                print "imported rlcompleter: {}".format(rlcompleter.__file__)
+                print("imported rlcompleter: {}".format(rlcompleter.__file__))
 
     def setup_autocomplete(self):
         readline = self.readline
@@ -94,21 +98,21 @@ class HistoryConsole(code.InteractiveConsole):
 
         if 'libedit' in rldoc:
             if self.debug:
-                print "osx libedit readline style readline"
+                print("osx libedit readline style readline")
             readline.parse_and_bind("bind ^I rl_complete")
             readline.parse_and_bind("bind ^R em-inc-search-prev")
         if 'readline.py' in rlfile:
             if self.debug:
-                print "pyreadline style readline"
+                print("pyreadline style readline")
             readline.parse_and_bind("tab: complete")
         elif rldoc:
             if self.debug:
-                print "normal readline style readline"
+                print("normal readline style readline")
             readline.parse_and_bind("tab: complete")
         elif self.debug:
-            print "readline module {} is unknown, methods: {}".format(
+            print("readline module {} is unknown, methods: {}".format(
                 readline, dir(readline),
-            )
+            ))
 
     def setup_atexit_write_history(self, histfile):
         readline = self.readline
@@ -117,9 +121,9 @@ class HistoryConsole(code.InteractiveConsole):
             atexit = self.atexit
             atexit.register(self.write_history, histfile)
         elif self.debug:
-            print "readline module {} has no write_history_file(), methods: {}".format(
+            print("readline module {} has no write_history_file(), methods: {}".format(
                 readline, dir(readline),
-            )
+            ))
 
     def read_history(self, histfile):
         readline = self.readline
@@ -131,11 +135,11 @@ class HistoryConsole(code.InteractiveConsole):
                 # the file doesn't exist/can't be accessed
                 pass
             except Exception as e:
-                print "Unable to read history file '{}', exception: '{}'".format(histfile, e)
+                print("Unable to read history file '{}', exception: '{}'".format(histfile, e))
         elif self.debug:
-            print "readline module {} has no read_history_file(), methods: {}".format(
+            print("readline module {} has no read_history_file(), methods: {}".format(
                 readline, dir(readline),
-            )
+            ))
 
     def write_history(self, histfile):
         readline = self.readline
@@ -145,11 +149,11 @@ class HistoryConsole(code.InteractiveConsole):
             try:
                 readline.write_history_file(histfile) # noqa
             except Exception as e:
-                print "Unable to write history file '{}', exception: '{}'".format(histfile, e)
+                print("Unable to write history file '{}', exception: '{}'".format(histfile, e))
         elif self.debug:
-            print "readline module {} has no write_history_file(), methods: {}".format(
+            print("readline module {} has no write_history_file(), methods: {}".format(
                 readline, dir(readline),
-            )
+            ))
 
 
 class CustomArgFormat(A1, A2):
@@ -185,9 +189,9 @@ class CustomArgParse(argparse.ArgumentParser):
             if isinstance(action, argparse._SubParsersAction)
         ]
         for subparsers_action in subparsers_actions:
-            print ""
+            print("")
             # get all subparsers and print help
-            for choice, subparser in subparsers_action.choices.items():
+            for choice, subparser in list(subparsers_action.choices.items()):
                 # print subparser
                 # print(" ** {} '{}':".format(
                     # subparsers_action.dest, choice))
@@ -2054,26 +2058,26 @@ def process_get_saved_question_history_args(parser, handler, args):
         else:
             parser.error("Must supply --id or --name of saved question if not using --all_questions")
 
-        print "++ Finding saved question: {}".format(pytan.utils.jsonify(get_args))
+        print("++ Finding saved question: {}".format(pytan.utils.jsonify(get_args)))
 
         try:
             saved_question = handler.get(**get_args)[0]
         except Exception as e:
             traceback.print_exc()
-            print "\n\nError occurred: {}".format(e)
+            print("\n\nError occurred: {}".format(e))
             sys.exit(99)
 
-        print "Found Saved Question: '{}'".format(saved_question)
+        print("Found Saved Question: '{}'".format(saved_question))
 
     # get all questions
     try:
         all_questions = handler.get_all('question', include_hidden_flag=1)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
-    print "Found {} Total Questions".format(len(all_questions))
+    print("Found {} Total Questions".format(len(all_questions)))
 
     if not all_questions_bool:
         all_questions = [
@@ -2081,11 +2085,11 @@ def process_get_saved_question_history_args(parser, handler, args):
             if getattr(x.saved_question, 'id', '') == saved_question.id
         ]
 
-        print (
+        print((
             "Found {} Questions asked for Saved_question '{}'"
-        ).format(len(all_questions), saved_question)
+        ).format(len(all_questions), saved_question))
 
-    print "Getting ResultInfo for {} Questions".format(len(all_questions))
+    print("Getting ResultInfo for {} Questions".format(len(all_questions)))
 
     # store the ResultInfo for each question as x.result_info
     [
@@ -2098,7 +2102,7 @@ def process_get_saved_question_history_args(parser, handler, args):
             x for x in all_questions
             if x.result_info.row_count
         ]
-        print "Found {} Questions that actually have data".format(len(all_questions))
+        print("Found {} Questions that actually have data".format(len(all_questions)))
 
     # flatten out saved_question.id
     [
@@ -2167,7 +2171,7 @@ def process_get_saved_question_history_args(parser, handler, args):
         report_dir=args.report_dir,
     )
 
-    print "Wrote {} bytes to report file: '{}'".format(len(all_question_csv), report_file)
+    print("Wrote {} bytes to report file: '{}'".format(len(all_question_csv), report_file))
     return report_file
 
 
@@ -2202,11 +2206,11 @@ def process_create_json_object_args(parser, handler, obj, args):
         response = handler.create_from_json(obj, **obj_grp_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(100)
     for i in response:
         obj_id = getattr(i, 'id', 'unknown')
-        print "Created item: {}, ID: {}".format(i, obj_id)
+        print("Created item: {}, ID: {}".format(i, obj_id))
     return response
 
 
@@ -2334,7 +2338,7 @@ class TsatWorker(object):
             ]
 
             for param in params:
-                for k, v in sorted(param.iteritems()):
+                for k, v in sorted(param.items()):
                     if k in skip_attrs:
                         continue
                     out.append("  * Parameter '{}' - '{}': {}".format(param['key'], k, v))
@@ -2385,7 +2389,7 @@ class TsatWorker(object):
         basename = os.path.basename(logfile)
         root_logger = logging.getLogger()
         all_loggers = pytan.utils.get_all_loggers()
-        for k, v in all_loggers.items():
+        for k, v in list(all_loggers.items()):
             for x in v.handlers:
                 if x.name == basename:
                     root_logger.removeHandler(x)
@@ -2400,7 +2404,7 @@ class TsatWorker(object):
         file_handler.set_name(basename)
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(logging.Formatter(self.FILE_INFO_FORMAT))
-        for k, v in all_loggers.items():
+        for k, v in list(all_loggers.items()):
             v.addHandler(file_handler)
             v.propagate = False
 
@@ -2612,10 +2616,10 @@ class TsatWorker(object):
         param_section = None
 
         while True:
-            ptype = raw_input(typeprompt)
+            ptype = input(typeprompt)
             if ptype not in typemap:
                 m = "\n!! Invalid choice '{}', must be one of: {}\n".format
-                print m(ptype, ', '.join(typemap.keys()))
+                print(m(ptype, ', '.join(list(typemap.keys()))))
                 continue
 
             if param_section == 'global':
@@ -2623,7 +2627,7 @@ class TsatWorker(object):
             else:
                 ptxt = 'sensor specific'
 
-            print "\n~~ Will store value as {}".format(ptxt)
+            print("\n~~ Will store value as {}".format(ptxt))
             param_section = typemap[ptype]
             break
         return param_section
@@ -2695,26 +2699,26 @@ class TsatWorker(object):
 
         param_value = None
         while True:
-            param_value = raw_input(valueprompt)
+            param_value = input(valueprompt)
             if not param_value:
                 if defval:
-                    print "\n~~ Using default value of: '{}'".format(defval)
+                    print("\n~~ Using default value of: '{}'".format(defval))
                     param_value = defval
                     break
 
                 if valid_values:
-                    print "\n~~ Using first valid value of: '{}'".format(valid_values[0])
+                    print("\n~~ Using first valid value of: '{}'".format(valid_values[0]))
                     param_value = valid_values[0]
                     break
 
             if valid_values and param_value not in valid_values:
                 m = "\n!! Invalid choice '{}', must be one of: {}\n".format
-                print m(param_value, valid_values)
+                print(m(param_value, valid_values))
                 continue
 
             if not param_value:
                 m = "\n!! No default value defined, must supply a value!\n".format
-                print m()
+                print(m())
                 continue
 
             if param_value:
@@ -2789,7 +2793,7 @@ class TsatWorker(object):
                 continue
 
         if param_dict:
-            for k, v in param_dict.iteritems():
+            for k, v in param_dict.items():
                 if v.startswith('eval:'):
                     orig_v = v.replace('eval:', '')
                     try:
@@ -2970,7 +2974,7 @@ def process_tsat_args(parser, handler, args):
         tsatworker.start()
     except Exception as e:
         traceback.print_exc()
-        print "\nError occurred: {}".format(e)
+        print("\nError occurred: {}".format(e))
         sys.exit(100)
 
 
@@ -3004,10 +3008,10 @@ def process_delete_object_args(parser, handler, obj, args):
         response = handler.delete(**obj_grp_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(100)
     for i in response:
-        print "Deleted item: ", i
+        print("Deleted item: ", i)
     return response
 
 
@@ -3033,10 +3037,10 @@ def process_approve_saved_action_args(parser, handler, args):
         approve_action = handler.approve_saved_action(**q_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
-    print "++ Saved Action ID approved successfully: {0.id!r}".format(approve_action)
+    print("++ Saved Action ID approved successfully: {0.id!r}".format(approve_action))
     return approve_action
 
 
@@ -3062,10 +3066,10 @@ def process_stop_action_args(parser, handler, args):
         action_stop = handler.stop_action(**q_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
-    print "++ Action ID stopped successfully: {0.id!r}".format(action_stop)
+    print("++ Action ID stopped successfully: {0.id!r}".format(action_stop))
     return action_stop
 
 
@@ -3090,7 +3094,7 @@ def process_get_results_args(parser, handler, args):
         obj = handler.get(**args.__dict__)[0]
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
     m = "++ Found object: {}".format
@@ -3100,14 +3104,14 @@ def process_get_results_args(parser, handler, args):
         try:
             results_obj = handler.get_result_data_sse(obj=obj, **args.__dict__)
         except Exception as e:
-            print "\n\nError occurred: {}".format(e)
+            print("\n\nError occurred: {}".format(e))
             sys.exit(99)
 
     else:
         try:
             results_obj = handler.get_result_data(obj=obj, **args.__dict__)
         except Exception as e:
-            print "\n\nError occurred: {}".format(e)
+            print("\n\nError occurred: {}".format(e))
             sys.exit(99)
 
     if isinstance(results_obj, taniumpy.object_types.result_set.ResultSet):
@@ -3121,7 +3125,7 @@ def process_get_results_args(parser, handler, args):
                 )
             except Exception as e:
                 traceback.print_exc()
-                print "\n\nError occurred: {}".format(e)
+                print("\n\nError occurred: {}".format(e))
                 sys.exit(99)
 
             m = "++ Report file {!r} written with {} bytes".format
@@ -3167,7 +3171,7 @@ def process_create_user_args(parser, handler, args):
         response = handler.create_user(**obj_grp_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
     roles_txt = ', '.join([x.name for x in response.roles])
@@ -3205,7 +3209,7 @@ def process_create_package_args(parser, handler, args):
         response = handler.create_package(**obj_grp_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
     m = "New package {0.name!r} created with ID {0.id!r}, command: {0.command!r}".format
@@ -3238,7 +3242,7 @@ def process_create_sensor_args(parser, handler, args):
         response = handler.create_sensor(**obj_grp_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
     m = "New sensor {0.name!r} created with ID {0.id!r}".format
@@ -3271,7 +3275,7 @@ def process_create_whitelisted_url_args(parser, handler, args):
         response = handler.create_whitelisted_url(**obj_grp_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
     m = "New Whitelisted URL {0.url_regex!r} created with ID {0.id!r}".format
@@ -3304,7 +3308,7 @@ def process_create_group_args(parser, handler, args):
         response = handler.create_group(**obj_grp_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
     m = (
@@ -3328,7 +3332,7 @@ def process_write_pytan_user_config_args(parser, handler, args):
     """
     puc = handler.write_pytan_user_config(pytan_user_config=args.file)
     m = "PyTan User config file successfully written: {} ".format
-    print m(puc)
+    print(m(puc))
 
 
 def process_print_server_info_args(parser, handler, args):
@@ -3346,9 +3350,9 @@ def process_print_server_info_args(parser, handler, args):
     si = handler.session.get_server_info()
 
     if args.json:
-        print pytan.utils.jsonify(si['diags_flat'])
+        print(pytan.utils.jsonify(si['diags_flat']))
     else:
-        print str(handler)
+        print(str(handler))
         print_obj(si['diags_flat'])
 
 
@@ -3369,17 +3373,17 @@ def process_print_sensors_args(parser, handler, args):
     )
 
     real_sensors = filter_sourced_sensors(all_sensors)
-    print "Filtered out sourced sensors: {}".format(len(real_sensors))
+    print("Filtered out sourced sensors: {}".format(len(real_sensors)))
 
     filtered_sensors = filter_sensors(
         sensors=real_sensors, filter_platforms=args.platforms, filter_categories=args.categories,
     )
-    print "Filtered out sensors based on user filters: {}".format(len(filtered_sensors))
+    print("Filtered out sensors based on user filters: {}".format(len(filtered_sensors)))
 
     if args.json:
         for x in filtered_sensors:
             result = handler.export_obj(obj=x, export_format='json')
-            print "{}:\n{}".format(x, result)
+            print("{}:\n{}".format(x, result))
         sys.exit()
 
     for x in sorted(filtered_sensors, key=lambda x: x.category):
@@ -3390,7 +3394,7 @@ def process_print_sensors_args(parser, handler, args):
             try:
                 param_def = json.loads(param_def)
             except:
-                print "Error loading JSON parameter definition {}".format(param_def)
+                print("Error loading JSON parameter definition {}".format(param_def))
                 param_def = {}
 
         params = param_def.get('parameters', [])
@@ -3398,10 +3402,10 @@ def process_print_sensors_args(parser, handler, args):
             continue
 
         desc = (x.description or '').replace('\n', ' ').strip()
-        print (
+        print((
             "\n  * Sensor Name: '{0.name}', Platforms: {1}, Category: {0.category}"
-        ).format(x, ', '.join(platforms))
-        print "  * Description: {}".format(desc)
+        ).format(x, ', '.join(platforms)))
+        print("  * Description: {}".format(desc))
 
         if args.hide_params:
             continue
@@ -3415,13 +3419,13 @@ def process_print_sensors_args(parser, handler, args):
         ]
 
         for param in params:
-            print "  * Parameter '{}':".format(param['key'])
-            for k, v in sorted(param.iteritems()):
+            print("  * Parameter '{}':".format(param['key']))
+            for k, v in sorted(param.items()):
                 if k in skip_attrs:
                     continue
                 if not v:
                     continue
-                print "    - '{}': {}".format(k, v)
+                print("    - '{}': {}".format(k, v))
 
 
 def process_get_object_args(parser, handler, obj, args, report=True):
@@ -3458,17 +3462,17 @@ def process_get_object_args(parser, handler, obj, args, report=True):
             response = handler.get_all(**o_dict)
         except Exception as e:
             traceback.print_exc()
-            print "\n\nError occurred: {}".format(e)
+            print("\n\nError occurred: {}".format(e))
             sys.exit(100)
     else:
         try:
             response = handler.get(**obj_grp_args)
         except Exception as e:
             traceback.print_exc()
-            print "\n\nError occurred: {}".format(e)
+            print("\n\nError occurred: {}".format(e))
             sys.exit(100)
 
-    print "Found items: ", response
+    print("Found items: ", response)
 
     if report:
         report_file, result = handler.export_to_report_file(obj=response, **args.__dict__)
@@ -3502,18 +3506,18 @@ def process_ask_parsed_args(parser, handler, args):
     obj_grp_opts = get_grp_opts(parser=parser, grp_names=obj_grp_names)
     obj_grp_args = {k: getattr(args, k) for k in obj_grp_opts if getattr(args, k, None)}
 
-    print "++ Asking parsed question:\n{}".format(pytan.utils.jsonify(obj_grp_args))
+    print("++ Asking parsed question:\n{}".format(pytan.utils.jsonify(obj_grp_args)))
 
     try:
         response = handler.ask(qtype='parsed', **obj_grp_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
     question = response['question_object']
     results = response['question_results']
-    print "++ Asked Question {0.query_text!r} ID: {0.id!r}".format(question)
+    print("++ Asked Question {0.query_text!r} ID: {0.id!r}".format(question))
 
     if results:
         try:
@@ -3521,13 +3525,13 @@ def process_ask_parsed_args(parser, handler, args):
                 obj=results, **args.__dict__
             )
         except Exception as e:
-            print "\n\nError occurred: {}".format(e)
+            print("\n\nError occurred: {}".format(e))
             sys.exit(99)
 
         m = "++ Report file {!r} written with {} bytes".format
         print(m(report_file, len(report_contents)))
     else:
-        print "++ No action results returned, run get_results.py to get the results"
+        print("++ No action results returned, run get_results.py to get the results")
 
     return response
 
@@ -3553,33 +3557,33 @@ def process_ask_manual_args(parser, handler, args):
     obj_grp_names = ['Manual Question Options']
     obj_grp_opts = get_grp_opts(parser=parser, grp_names=obj_grp_names)
     obj_grp_args = {k: getattr(args, k) for k in obj_grp_opts}
-    other_args = {a: b for a, b in args.__dict__.iteritems() if a not in obj_grp_args}
+    other_args = {a: b for a, b in args.__dict__.items() if a not in obj_grp_args}
 
-    print "++ Asking manual question:\n{}".format(pytan.utils.jsonify(obj_grp_args))
+    print("++ Asking manual question:\n{}".format(pytan.utils.jsonify(obj_grp_args)))
 
     try:
         response = handler.ask(qtype='manual', **obj_grp_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
     question = response['question_object']
     results = response['question_results']
-    print "++ Asked Question {0.query_text!r} ID: {0.id!r}".format(question)
+    print("++ Asked Question {0.query_text!r} ID: {0.id!r}".format(question))
 
     if results:
         try:
             report_file, report_contents = handler.export_to_report_file(obj=results, **other_args)
         except Exception as e:
             traceback.print_exc()
-            print "\n\nError occurred: {}".format(e)
+            print("\n\nError occurred: {}".format(e))
             sys.exit(99)
 
         m = "++ Report file {!r} written with {} bytes".format
         print(m(report_file, len(report_contents)))
     else:
-        print "++ No action results returned, run get_results.py to get the results"
+        print("++ No action results returned, run get_results.py to get the results")
 
     return response
 
@@ -3606,23 +3610,23 @@ def process_deploy_action_args(parser, handler, args):
     obj_grp_opts = get_grp_opts(parser=parser, grp_names=obj_grp_names)
     obj_grp_args = {k: getattr(args, k) for k in obj_grp_opts}
 
-    print "++ Deploying action:\n{}".format(pytan.utils.jsonify(obj_grp_args))
+    print("++ Deploying action:\n{}".format(pytan.utils.jsonify(obj_grp_args)))
 
     try:
         response = handler.deploy_action(**obj_grp_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
     action = response['action_object']
-    print "++ Deployed Action {0.name!r} ID: {0.id!r}".format(action)
-    print "++ Command used in Action: {0.package_spec.command!r}".format(action)
+    print("++ Deployed Action {0.name!r} ID: {0.id!r}".format(action))
+    print("++ Command used in Action: {0.package_spec.command!r}".format(action))
 
     if response['action_result_map']:
-        print "++ Deploy action progress results:"
-        for k, v in sorted(response['action_result_map'].iteritems()):
-            print "Total {}: {}".format(k, v['total'])
+        print("++ Deploy action progress results:")
+        for k, v in sorted(response['action_result_map'].items()):
+            print("Total {}: {}".format(k, v['total']))
 
     results = response['action_results']
     if results:
@@ -3634,7 +3638,7 @@ def process_deploy_action_args(parser, handler, args):
                 obj=results, **obj_grp_args
             )
         except Exception as e:
-            print "\n\nError occurred: {}".format(e)
+            print("\n\nError occurred: {}".format(e))
             sys.exit(99)
 
         response['report_file'] = report_file
@@ -3678,7 +3682,7 @@ def process_get_session_args(parser, handler, args):
     args : args object
         * args parsed from `parser`
     """
-    print handler.session._session_id
+    print(handler.session._session_id)
 
 
 def process_close_session_args(parser, handler, args):
@@ -3728,24 +3732,24 @@ def process_ask_saved_args(parser, handler, args):
 
     q_args['refresh_data'] = refresh_arg
 
-    print "++ Asking saved question: {}".format(pytan.utils.jsonify(q_args))
+    print("++ Asking saved question: {}".format(pytan.utils.jsonify(q_args)))
 
     try:
         response = handler.ask(qtype='saved', **q_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
     question = response['question_object']
     results = response['question_results']
-    print "++ Saved Question {0.query_text!r} ID: {0.id!r}".format(question)
+    print("++ Saved Question {0.query_text!r} ID: {0.id!r}".format(question))
 
     try:
         report_file, report_contents = handler.export_to_report_file(obj=results, **args.__dict__)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
     response['report_file'] = report_file
@@ -3780,10 +3784,10 @@ def process_handler_args(parser, args):
         h = pytan.Handler(**handler_args)
     except Exception as e:
         traceback.print_exc()
-        print "\n\nError occurred: {}".format(e)
+        print("\n\nError occurred: {}".format(e))
         sys.exit(99)
 
-    print str(h)
+    print(str(h))
     return h
 
 
@@ -3846,17 +3850,17 @@ def debug_obj(debugobj):
 def introspect(obj, depth=0):
     """Utility function to dump all info about an object"""
     import types
-    print "%s%s: %s\n" % (depth * "\t", obj, [
-        x for x in dir(obj) if x[:2] != "__"])
+    print("%s%s: %s\n" % (depth * "\t", obj, [
+        x for x in dir(obj) if x[:2] != "__"]))
     depth += 1
     for x in dir(obj):
         if x[:2] == "__":
             continue
         subobj = getattr(obj, x)
-        print "%s%s: %s" % (depth * "\t", x, subobj)
+        print("%s%s: %s" % (depth * "\t", x, subobj))
         if isinstance(subobj, types.InstanceType) and dir(subobj) != []:
             introspect(subobj, depth=depth + 1)
-            print
+            print()
 
 
 def input_prompts(args):
@@ -3872,11 +3876,11 @@ def input_prompts(args):
                 puc_dict = json.load(fh)
         except Exception as e:
             m = "PyTan User Config file exists at '{}' but is not valid, Exception: {}".format
-            print m(puc, e)
+            print(m(puc, e))
 
     if not args.session_id:
         if not args.username and not puc_dict.get('username', ''):
-            username = raw_input('Tanium Username: ')
+            username = input('Tanium Username: ')
             args.username = username.strip()
 
         if not args.password and not puc_dict.get('password', ''):
@@ -3884,23 +3888,23 @@ def input_prompts(args):
             args.password = password.strip()
 
     if not args.host and not puc_dict.get('host', ''):
-        host = raw_input('Tanium Host: ')
+        host = input('Tanium Host: ')
         args.host = host.strip()
     return args
 
 
 def print_obj(d, indent=0):
     """Pretty print a dictionary"""
-    for k, v in d.iteritems():
+    for k, v in d.items():
         if pytan.utils.is_dict(v):
-            print "{}{}: \n".format('  ' * indent, k),
+            print("{}{}: \n".format('  ' * indent, k), end=' ')
             print_obj(v, indent + 1)
         elif pytan.utils.is_list(v):
-            print "{}{}: ".format('  ' * indent, k)
+            print("{}{}: ".format('  ' * indent, k))
             for a in v:
                 print_obj(a, indent + 1)
         else:
-            print "{}{}: {}".format('  ' * indent, k, v)
+            print("{}{}: {}".format('  ' * indent, k, v))
 
 
 def filter_filename(filename):
@@ -3996,7 +4000,7 @@ def get_all_headers(rows_list):
     """Utility to get all the keys for a list of dicts"""
     headers = []
     for row_dict in rows_list:
-        [headers.append(h) for h in row_dict.keys() if h not in headers]
+        [headers.append(h) for h in list(row_dict.keys()) if h not in headers]
     return headers
 
 

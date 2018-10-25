@@ -71,10 +71,10 @@ class PackageSpec(BaseType):
         self.metadata = None
         
 
-from package_file_list import PackageFileList
-from package_file_template_list import PackageFileTemplateList
-from group import Group
-from parameter_list import ParameterList
-from sensor_list import SensorList
-from metadata_list import MetadataList
+from .package_file_list import PackageFileList
+from .package_file_template_list import PackageFileTemplateList
+from .group import Group
+from .parameter_list import ParameterList
+from .sensor_list import SensorList
+from .metadata_list import MetadataList
 

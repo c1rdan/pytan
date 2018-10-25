@@ -23,5 +23,5 @@ class SelectList(BaseType):
         
         self.select = []
 
-from select import Select
+from .select import Select
 

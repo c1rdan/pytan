@@ -41,7 +41,7 @@ class User(BaseType):
         self.metadata = None
         
 
-from permission_list import PermissionList
-from user_role_list import UserRoleList
-from metadata_list import MetadataList
+from .permission_list import PermissionList
+from .user_role_list import UserRoleList
+from .metadata_list import MetadataList
 

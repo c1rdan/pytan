@@ -23,5 +23,5 @@ class ParseResultList(BaseType):
         
         self.parse_result = []
 
-from parse_result import ParseResult
+from .parse_result import ParseResult
 

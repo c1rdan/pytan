@@ -23,5 +23,5 @@ class FilterList(BaseType):
         
         self.filter = []
 
-from filter import Filter
+from .filter import Filter
 

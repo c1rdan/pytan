@@ -23,5 +23,5 @@ class UserList(BaseType):
         
         self.user = []
 
-from user import User
+from .user import User
 

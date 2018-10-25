@@ -23,6 +23,6 @@ class PluginScheduleList(BaseType):
         self.cache_info = None
         self.plugin_schedule = []
 
-from plugin_schedule import PluginSchedule
-from cache_info import CacheInfo
+from .plugin_schedule import PluginSchedule
+from .cache_info import CacheInfo
 

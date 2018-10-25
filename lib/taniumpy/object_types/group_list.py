@@ -23,5 +23,5 @@ class GroupList(BaseType):
         
         self.group = []
 
-from group import Group
+from .group import Group
 

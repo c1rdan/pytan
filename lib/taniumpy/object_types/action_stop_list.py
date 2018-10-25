@@ -23,5 +23,5 @@ class ActionStopList(BaseType):
         
         self.action_stop = []
 
-from action_stop import ActionStop
+from .action_stop import ActionStop
 

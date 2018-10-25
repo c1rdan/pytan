@@ -23,6 +23,6 @@ class SystemSettingList(BaseType):
         self.cache_info = None
         self.system_setting = []
 
-from system_setting import SystemSetting
-from cache_info import CacheInfo
+from .system_setting import SystemSetting
+from .cache_info import CacheInfo
 

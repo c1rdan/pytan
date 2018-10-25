@@ -23,5 +23,5 @@ class SensorQueryList(BaseType):
         
         self.query = []
 
-from sensor_query import SensorQuery
+from .sensor_query import SensorQuery
 

@@ -59,12 +59,12 @@ class Action(BaseType):
         self.metadata = None
         
 
-from group import Group
-from group import Group
-from package_spec import PackageSpec
-from user import User
-from user import User
-from saved_question import SavedQuestion
-from saved_action import SavedAction
-from metadata_list import MetadataList
+from .group import Group
+from .group import Group
+from .package_spec import PackageSpec
+from .user import User
+from .user import User
+from .saved_question import SavedQuestion
+from .saved_action import SavedAction
+from .metadata_list import MetadataList
 

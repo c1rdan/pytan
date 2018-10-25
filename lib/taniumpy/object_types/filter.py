@@ -57,5 +57,5 @@ class Filter(BaseType):
         self.sensor = None
         
 
-from sensor import Sensor
+from .sensor import Sensor
 

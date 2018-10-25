@@ -23,5 +23,5 @@ class ActionStop(BaseType):
         self.action = None
         
 
-from action import Action
+from .action import Action
 

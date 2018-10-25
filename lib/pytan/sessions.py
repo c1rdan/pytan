@@ -1,4 +1,6 @@
 """Session classes for the :mod:`pytan` module."""
+from builtins import str
+from builtins import object
 import json
 import logging
 import os
@@ -32,12 +34,9 @@ except Exception:
 
 requests.packages.urllib3.disable_warnings()
 
-try:
-    import sys
-    reload(sys)  # noqa
+if sys.version_info < (3,0):
+    reload(sys)
     sys.setdefaultencoding('utf-8')
-except Exception:
-    raise
 
 
 class Session(object):
@@ -800,7 +799,7 @@ class Session(object):
         stats_resolved = [
             self._find_stat_target(target=t, diags=diags) for t in self.STATS_LOOP_TARGETS
         ]
-        stats_text = ", ".join(["{}: {}".format(*i.items()[0]) for i in stats_resolved])
+        stats_text = ", ".join(["{}: {}".format(*list(i.items())[0]) for i in stats_resolved])
         return stats_text
 
     def enable_stats_loop(self, sleep=None):
@@ -1283,8 +1282,8 @@ class Session(object):
             self.authlog.debug("Using session ID for authentication headers")
 
         elif self._username and self._password:
-            headers['username'] = b64encode(self._username)
-            headers['password'] = b64encode(self._password)
+            headers['username'] = b64encode(self._username.encode("utf-8"))
+            headers['password'] = b64encode(self._password.encode("utf-8"))
             self.authlog.debug("Using Username/Password for authentication headers")
         return headers
 
@@ -1386,7 +1385,7 @@ class Session(object):
         """
         flattened = structure
         if isinstance(structure, dict):
-            for k, v in flattened.iteritems():
+            for k, v in flattened.items():
                 flattened[k] = self._flatten_server_info(structure=v)
         elif isinstance(structure, (tuple, list)):
             if all([isinstance(x, dict) for x in structure]):
@@ -1427,7 +1426,7 @@ class Session(object):
             * result : value resolved from :func:`pytan.sessions.Session._resolve_stat_target` for `target` index1 (search_path)
         """
         try:
-            label, search_path = target.items()[0]
+            label, search_path = list(target.items())[0]
         except Exception as e:
             label = "Parse Failure"
             result = "Unable to parse stat target: {}, exception: {}".format(target, e)
@@ -1491,7 +1490,7 @@ class Session(object):
         """
         options_obj = taniumpy.Options()
 
-        for k, v in kwargs.iteritems():
+        for k, v in kwargs.items():
             if hasattr(options_obj, k):
                 if log_options:
                     m = "Setting Options attribute {!r} to value {!r}".format

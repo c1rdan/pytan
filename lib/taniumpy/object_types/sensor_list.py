@@ -23,6 +23,6 @@ class SensorList(BaseType):
         self.cache_info = None
         self.sensor = []
 
-from sensor import Sensor
-from cache_info import CacheInfo
+from .sensor import Sensor
+from .cache_info import CacheInfo
 

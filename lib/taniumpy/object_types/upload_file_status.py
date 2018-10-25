@@ -27,5 +27,5 @@ class UploadFileStatus(BaseType):
         self.file_parts = None
         
 
-from upload_file_list import UploadFileList
+from .upload_file_list import UploadFileList
 

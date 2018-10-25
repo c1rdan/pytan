@@ -3,12 +3,15 @@
 # ex: set tabstop=4
 # Please do not change the two lines above. See PEP 8, PEP 263.
 '''generates all of the examples from the test/ddt JSON files'''
+from __future__ import print_function
+from future import standard_library
+standard_library.install_aliases()
 __author__ = 'Jim Olsen (jim.olsen@tanium.com)'
 __version__ = '2.1.4'
 
 import os
 import sys
-import StringIO
+import io
 import unittest
 import tempfile
 import platform
@@ -58,19 +61,19 @@ if __name__ == "__main__":
 
     handler = pytan.Handler(**api_info)
     platform_version = handler.get_server_version()
-    print "Determined platform version: {}".format(platform_version)
-    print "Determined OS version: {}".format(os_version)
-    print "Determined Python version: {}".format(python_version_full)
+    print("Determined platform version: {}".format(platform_version))
+    print("Determined OS version: {}".format(os_version))
+    print("Determined Python version: {}".format(python_version_full))
 
     buildsupport.clean_up(TEST_OUT, '*')
 
     loader = unittest.TestLoader()
     suite = loader.loadTestsFromModule(test_pytan_valid_server_tests)
 
-    print "Capturing stderr and stdout and launching unittests for test_pytan_valid_server_tests"
+    print("Capturing stderr and stdout and launching unittests for test_pytan_valid_server_tests")
 
-    val_stdout = StringIO.StringIO()
-    val_stderr = StringIO.StringIO()
+    val_stdout = io.StringIO()
+    val_stderr = io.StringIO()
 
     sys.stdout = val_stdout
     sys.stderr = val_stderr
@@ -82,9 +85,9 @@ if __name__ == "__main__":
         sys.stderr = sys.__stderr__
         val_stdout_val = val_stdout.getvalue()
         val_stderr_val = val_stderr.getvalue()
-        print "Exception occurred!!"
-        print "stdout:\n{}".format(val_stdout_val)
-        print "stderr:\n{}".format(val_stderr_val)
+        print("Exception occurred!!")
+        print("stdout:\n{}".format(val_stdout_val))
+        print("stderr:\n{}".format(val_stderr_val))
         raise
 
     sys.stdout = sys.__stdout__
@@ -96,8 +99,8 @@ if __name__ == "__main__":
     # print "stderr:\n{}".format(val_stderr_val)
 
     if val_stderr_val:
-        print val_stderr_val
-        print "STDERR output from test!"
+        print(val_stderr_val)
+        print("STDERR output from test!")
 
     dir_base = 'valid_pytan_tests'
     rst_dir = os.path.join(script_definitions.doc_source, dir_base)

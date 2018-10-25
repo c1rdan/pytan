@@ -4,6 +4,7 @@ This contains unit tests for pytan.
 
 These unit tests do not require a connection to a Tanium server in order to run.
 """
+from __future__ import absolute_import
 import sys
 
 # disable python from creating .pyc files everywhere
@@ -218,6 +219,7 @@ class TestDehumanizeQuestionFilterUtils(unittest.TestCase):
                     'not_flag': 0,
                     'value': '.*Windows.*'
                 },
+                'params': {},
                 'name': 'Sensor1'
             }
         ]
@@ -235,6 +237,7 @@ class TestDehumanizeQuestionFilterUtils(unittest.TestCase):
                     'not_flag': 0,
                     'value': '.*Windows.*'
                 },
+                'params': {},
                 'name': 'Sensor1'
             }
         ]
@@ -255,6 +258,7 @@ class TestDehumanizeQuestionFilterUtils(unittest.TestCase):
                     'not_flag': 0,
                     'value': '.*Windows.*'
                 },
+                'params': {},
                 'name': 'Sensor1'
             },
             {
@@ -263,6 +267,7 @@ class TestDehumanizeQuestionFilterUtils(unittest.TestCase):
                     'not_flag': 1,
                     'value': '.*10.10.10.10.*'
                 },
+                'params': {},
                 'name': 'Sensor2'
             }
         ]
@@ -466,19 +471,31 @@ class TestDehumanizeExtractionUtils(unittest.TestCase):
 
     def test_extract_options_missing_value_max_data_age(self):
         s = 'Sensor1, more:stuff,here, opt:max_data_age'
-        e = (
-            "Option 'max_data_age' is missing a <type 'int'> value of seconds"
-            ".*"
-        )
+        if sys.version_info < (3, 0):
+            e = (
+                "Option 'max_data_age' is missing a <type 'int'> value of seconds"
+                ".*"
+            )
+        else:
+            e = (
+                "Option 'max_data_age' is missing a <class 'int'> value of seconds"
+                ".*"
+            )
         with self.assertRaisesRegexp(pytan.exceptions.HumanParserError, e):
             pytan.utils.extract_options(s)
 
     def test_extract_options_missing_value_value_type(self):
         s = 'Sensor1, more:stuff,here, opt:value_type'
-        e = (
-            "Option 'value_type' is missing a <type 'str'> value of "
-            "value_type.*"
-        )
+        if sys.version_info < (3, 0):
+            e = (
+                "Option 'value_type' is missing a <type 'str'> value of "
+                "value_type.*"
+            )
+        else:
+            e = (
+                "Option 'value_type' is missing a <class 'str'> value of "
+                "value_type.*"
+            )
         with self.assertRaisesRegexp(pytan.exceptions.HumanParserError, e):
             pytan.utils.extract_options(s)
 
@@ -778,10 +795,16 @@ class TestManualQuestionFilterDefParseUtils(unittest.TestCase):
         self.assertEquals(r, kwargs['question_filter_defs'])
 
     def test_parse_str(self):
-        e = (
-            "Argument 'question_filter_defs' has an invalid type "
-            "<type 'str'>"
-        )
+        if sys.version_info < (3, 0):
+            e = (
+                "Argument 'question_filter_defs' has an invalid type "
+                "<type 'str'>"
+            )
+        else:
+            e = (
+                "Argument 'question_filter_defs' has an invalid type "
+                "<class 'str'>"
+            )
         with self.assertRaisesRegexp(pytan.exceptions.DefinitionParserError, e):
             kwargs = {'question_filter_defs': 'no string allowed'}
             pytan.utils.parse_defs(
@@ -968,10 +991,16 @@ class TestManualSensorDefValidateUtils(unittest.TestCase):
             pytan.utils.val_sensor_defs(**kwargs)
 
     def test_invalid3(self):
-        e = (
-            "'filter' key in definition dictionary must be a \[<type 'dict'>\]"
-            ", you supplied a <type 'list'>!"
-        )
+        if sys.version_info < (3, 0):
+            e = (
+                "'filter' key in definition dictionary must be a \[<type 'dict'>\]"
+                ", you supplied a <type 'list'>!"
+            )
+        else:
+            e = (
+                "'filter' key in definition dictionary must be a \[<class 'dict'>\]"
+                ", you supplied a <class 'list'>!"
+            )
         with self.assertRaisesRegexp(pytan.exceptions.DefinitionParserError, e):
             kwargs = {'sensor_defs': [{'name': 'test1', 'filter': [{}]}]}
             pytan.utils.val_sensor_defs(**kwargs)

@@ -23,6 +23,6 @@ class PluginList(BaseType):
         self.cache_info = None
         self.plugin = []
 
-from plugin import Plugin
-from cache_info import CacheInfo
+from .plugin import Plugin
+from .cache_info import CacheInfo
 

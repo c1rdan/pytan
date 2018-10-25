@@ -23,5 +23,5 @@ class PackageFileList(BaseType):
         
         self.file = []
 
-from package_file import PackageFile
+from .package_file import PackageFile
 

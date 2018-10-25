@@ -45,5 +45,5 @@ class SystemStatusAggregate(BaseType):
         self.versions = None
         
 
-from version_aggregate_list import VersionAggregateList
+from .version_aggregate_list import VersionAggregateList
 

@@ -3,6 +3,7 @@
 # ex: set tabstop=4
 # Please do not change the two lines above. See PEP 8, PEP 263.
 '''Build the markdown docs for the bin/ scripts'''
+from __future__ import print_function
 __author__ = 'Jim Olsen (jim.olsen@tanium.com)'
 __version__ = '2.1.4'
 
@@ -37,7 +38,7 @@ verbose = False
 
 main_output_dir = script_definitions.staticdoc_source
 # main_output_dir = '/tmp'
-print "Output dir is: {}".format(main_output_dir)
+print("Output dir is: {}".format(main_output_dir))
 
 only_run = []
 skips = []
@@ -52,12 +53,12 @@ if __name__ == "__main__":
 
     buildsupport.clean_up(ini_output_dir, '*')
 
-    print "Re-building INI Files"
+    print("Re-building INI Files")
 
     section_template = string.Template(script_definitions.bin_doc_ini_section)
     ini_template = string.Template(script_definitions.bin_doc_ini)
 
-    for script_name, script_def in script_definitions.scripts.iteritems():
+    for script_name, script_def in script_definitions.scripts.items():
         if script_name in skips:
             buildsupport.spew("Skipping examples for {script_name}".format(**script_def), verbose)
             continue
@@ -120,7 +121,7 @@ if __name__ == "__main__":
 
     for x in ini_files:
         os.chdir(parent_dir)
-        print "Running MDTest against {}".format(x)
+        print("Running MDTest against {}".format(x))
         mdtest_args = {}
         mdtest_args['filehandle'] = open(x, 'r')
         mdtest_args['outdir'] = md_output_dir
@@ -131,7 +132,7 @@ if __name__ == "__main__":
     toctemplate = "  * **[{script_name}]({script_name}.html)**: {docstring}".format
     tocitems = [
         toctemplate(**script_def)
-        for script_name, script_def in sorted(script_definitions.scripts.iteritems())
+        for script_name, script_def in sorted(script_definitions.scripts.items())
         if script_def['script_name'] not in script_examples.example_skips
     ]
 
@@ -141,7 +142,7 @@ if __name__ == "__main__":
     index_out = script_definitions.bin_doc_index.format(tocitems=tocitems)
     buildsupport.write_file(index_file, index_out)
 
-    print "Running MDTest against {}".format(index_file)
+    print("Running MDTest against {}".format(index_file))
     mdtest_args = {}
     mdtest_args['filehandle'] = open(index_file, 'r')
     mdtest_args['outdir'] = md_output_dir

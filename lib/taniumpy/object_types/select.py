@@ -27,7 +27,7 @@ class Select(BaseType):
         self.group = None
         
 
-from sensor import Sensor
-from filter import Filter
-from group import Group
+from .sensor import Sensor
+from .filter import Filter
+from .group import Group
 

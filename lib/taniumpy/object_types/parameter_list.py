@@ -23,5 +23,5 @@ class ParameterList(BaseType):
         
         self.parameter = []
 
-from parameter import Parameter
+from .parameter import Parameter
 

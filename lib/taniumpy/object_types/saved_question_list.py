@@ -23,6 +23,6 @@ class SavedQuestionList(BaseType):
         self.cache_info = None
         self.saved_question = []
 
-from saved_question import SavedQuestion
-from cache_info import CacheInfo
+from .saved_question import SavedQuestion
+from .cache_info import CacheInfo
 

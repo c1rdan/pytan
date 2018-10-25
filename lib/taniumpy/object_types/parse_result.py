@@ -25,5 +25,5 @@ class ParseResult(BaseType):
         self.parameters = None
         
 
-from parameter_list import ParameterList
+from .parameter_list import ParameterList
 

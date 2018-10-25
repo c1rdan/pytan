@@ -1,7 +1,7 @@
 
 # Copyright (c) 2015 Tanium Inc
 #
-# Generated from console.wsdl version 0.0.1     
+# Generated from .console.wsdl version 0.0.1     
 #
 #
 
@@ -107,48 +107,48 @@ class ObjectList(BaseType):
         self.soap_error = []
         self.computer_group = []
 
-from question import Question
-from question_list import QuestionList
-from group import Group
-from group_list import GroupList
-from saved_question import SavedQuestion
-from saved_question_list import SavedQuestionList
-from archived_question import ArchivedQuestion
-from archived_question_list import ArchivedQuestionList
-from parse_job import ParseJob
-from parse_job_list import ParseJobList
-from parse_result_group import ParseResultGroup
-from parse_result_group_list import ParseResultGroupList
-from action import Action
-from action_list import ActionList
-from saved_action import SavedAction
-from saved_action_list import SavedActionList
-from action_stop import ActionStop
-from action_stop_list import ActionStopList
-from package_spec import PackageSpec
-from package_spec_list import PackageSpecList
-from package_file import PackageFile
-from package_file_list import PackageFileList
-from sensor import Sensor
-from sensor_list import SensorList
-from user import User
-from user_list import UserList
-from user_role_list import UserRoleList
-from client_status import ClientStatus
-from system_setting import SystemSetting
-from saved_action_approval import SavedActionApproval
-from system_status_list import SystemStatusList
-from system_setting_list import SystemSettingList
-from client_count import ClientCount
-from plugin import Plugin
-from plugin_list import PluginList
-from plugin_schedule import PluginSchedule
-from plugin_schedule_list import PluginScheduleList
-from white_listed_url import WhiteListedUrl
-from white_listed_url_list import WhiteListedUrlList
-from upload_file import UploadFile
-from upload_file_status import UploadFileStatus
-from soap_error import SoapError
-from computer_group_list import ComputerGroupList
-from computer_group import ComputerGroup
+from .question import Question
+from .question_list import QuestionList
+from .group import Group
+from .group_list import GroupList
+from .saved_question import SavedQuestion
+from .saved_question_list import SavedQuestionList
+from .archived_question import ArchivedQuestion
+from .archived_question_list import ArchivedQuestionList
+from .parse_job import ParseJob
+from .parse_job_list import ParseJobList
+from .parse_result_group import ParseResultGroup
+from .parse_result_group_list import ParseResultGroupList
+from .action import Action
+from .action_list import ActionList
+from .saved_action import SavedAction
+from .saved_action_list import SavedActionList
+from .action_stop import ActionStop
+from .action_stop_list import ActionStopList
+from .package_spec import PackageSpec
+from .package_spec_list import PackageSpecList
+from .package_file import PackageFile
+from .package_file_list import PackageFileList
+from .sensor import Sensor
+from .sensor_list import SensorList
+from .user import User
+from .user_list import UserList
+from .user_role_list import UserRoleList
+from .client_status import ClientStatus
+from .system_setting import SystemSetting
+from .saved_action_approval import SavedActionApproval
+from .system_status_list import SystemStatusList
+from .system_setting_list import SystemSettingList
+from .client_count import ClientCount
+from .plugin import Plugin
+from .plugin_list import PluginList
+from .plugin_schedule import PluginSchedule
+from .plugin_schedule_list import PluginScheduleList
+from .white_listed_url import WhiteListedUrl
+from .white_listed_url_list import WhiteListedUrlList
+from .upload_file import UploadFile
+from .upload_file_status import UploadFileStatus
+from .soap_error import SoapError
+from .computer_group_list import ComputerGroupList
+from .computer_group import ComputerGroup
 

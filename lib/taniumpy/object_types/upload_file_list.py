@@ -23,5 +23,5 @@ class UploadFileList(BaseType):
         
         self.upload_file = []
 
-from upload_file import UploadFile
+from .upload_file import UploadFile
 

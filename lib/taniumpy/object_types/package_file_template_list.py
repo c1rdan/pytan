@@ -23,5 +23,5 @@ class PackageFileTemplateList(BaseType):
         
         self.file_template = []
 
-from package_file_template import PackageFileTemplate
+from .package_file_template import PackageFileTemplate
 

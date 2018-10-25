@@ -27,5 +27,5 @@ class ComputerGroup(BaseType):
         self.computer_specs = None
         
 
-from computer_spec_list import ComputerSpecList
+from .computer_spec_list import ComputerSpecList
 

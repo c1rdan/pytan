@@ -8,6 +8,7 @@ The connection info is pulled from the SERVER_INFO dictionary in test/API_INFO.p
 These tests all use :mod:`ddt`, a package that provides for data driven tests via JSON files.
 """
 from __future__ import print_function
+from __future__ import absolute_import
 
 import sys
 
@@ -32,11 +33,11 @@ for aa in path_adds:
         sys.path.insert(0, aa)
 
 import pytan
-import ddt
+from . import ddt
 import threaded_http
 
 # get our server connection info
-from API_INFO import SERVER_INFO
+from .API_INFO import SERVER_INFO
 
 # where the output files from the tests will be stored
 TEST_OUT = os.path.join(my_dir, 'TEST_OUT')

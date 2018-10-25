@@ -23,5 +23,5 @@ class SensorSubcolumnList(BaseType):
         
         self.subcolumn = []
 
-from sensor_subcolumn import SensorSubcolumn
+from .sensor_subcolumn import SensorSubcolumn
 

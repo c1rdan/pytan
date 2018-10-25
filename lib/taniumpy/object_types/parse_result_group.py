@@ -27,6 +27,6 @@ class ParseResultGroup(BaseType):
         self.question = None
         
 
-from parse_result_list import ParseResultList
-from question import Question
+from .parse_result_list import ParseResultList
+from .question import Question
 

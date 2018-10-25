@@ -6,10 +6,13 @@
 
 from __future__ import print_function
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
 import sys
 import cgi
-from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
-from SocketServer import ThreadingMixIn
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from socketserver import ThreadingMixIn
 import threading
 
 # disable python from creating .pyc files everywhere
@@ -47,7 +50,7 @@ class CustomHTTPHandler(BaseHTTPRequestHandler):
         self.wfile.write('Form data:\n')
 
         # Echo back information about what was posted in the form
-        for field in form.keys():
+        for field in list(form.keys()):
             field_item = form[field]
             if field_item.filename:
                 # The field contains an uploaded file

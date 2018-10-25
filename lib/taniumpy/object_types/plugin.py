@@ -71,9 +71,9 @@ class Plugin(BaseType):
         self.permissions = None
         
 
-from plugin_argument_list import PluginArgumentList
-from plugin_sql import PluginSql
-from metadata_list import MetadataList
-from plugin_command_list import PluginCommandList
-from permission_list import PermissionList
+from .plugin_argument_list import PluginArgumentList
+from .plugin_sql import PluginSql
+from .metadata_list import MetadataList
+from .plugin_command_list import PluginCommandList
+from .permission_list import PermissionList
 

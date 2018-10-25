@@ -41,7 +41,7 @@ class Group(BaseType):
         self.parameters = None
         
 
-from group_list import GroupList
-from filter_list import FilterList
-from parameter_list import ParameterList
+from .group_list import GroupList
+from .filter_list import FilterList
+from .parameter_list import ParameterList
 

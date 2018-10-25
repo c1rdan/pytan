@@ -25,6 +25,6 @@ class PluginSql(BaseType):
         self.columns = None
         self.result_row = []
 
-from plugin_sql_column import PluginSqlColumn
-from plugin_sql_result import PluginSqlResult
+from .plugin_sql_column import PluginSqlColumn
+from .plugin_sql_result import PluginSqlResult
 

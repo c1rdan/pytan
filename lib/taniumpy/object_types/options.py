@@ -95,5 +95,5 @@ class Options(BaseType):
         self.cache_filters = None
         
 
-from cache_filter_list import CacheFilterList
+from .cache_filter_list import CacheFilterList
 

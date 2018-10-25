@@ -23,5 +23,5 @@ class CacheFilterList(BaseType):
         
         self.filter = []
 
-from cache_filter import CacheFilter
+from .cache_filter import CacheFilter
 

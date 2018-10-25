@@ -71,9 +71,9 @@ class Sensor(BaseType):
         self.metadata = None
         
 
-from sensor_query_list import SensorQueryList
-from parameter_list import ParameterList
-from sensor_subcolumn_list import SensorSubcolumnList
-from string_hint_list import StringHintList
-from metadata_list import MetadataList
+from .sensor_query_list import SensorQueryList
+from .parameter_list import ParameterList
+from .sensor_subcolumn_list import SensorSubcolumnList
+from .string_hint_list import StringHintList
+from .metadata_list import MetadataList
 

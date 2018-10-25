@@ -23,5 +23,5 @@ class MetadataList(BaseType):
         
         self.item = []
 
-from metadata_item import MetadataItem
+from .metadata_item import MetadataItem
 

@@ -23,5 +23,5 @@ class PluginArgumentList(BaseType):
         
         self.argument = []
 
-from plugin_argument import PluginArgument
+from .plugin_argument import PluginArgument
 

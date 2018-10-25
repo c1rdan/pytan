@@ -8,6 +8,7 @@ __version__ = '2.1.5'
 
 import os
 import sys
+import re
 import argparse
 
 sys.dont_write_bytecode = True

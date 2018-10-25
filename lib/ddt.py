@@ -1,3 +1,5 @@
+from builtins import str
+from builtins import map
 import inspect
 import json
 import os
@@ -104,7 +106,7 @@ def mk_test_name(name, value, index=0):
 
     trivial_types = (type(None), bool, str, int, float)
     try:
-        trivial_types += (unicode,)
+        trivial_types += (str,)
     except NameError:
         pass
 

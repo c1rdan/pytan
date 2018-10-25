@@ -23,6 +23,6 @@ class ComputerSpecList(BaseType):
         self.cache_info = None
         self.computer_spec = []
 
-from computer_group_spec import ComputerGroupSpec
-from cache_info import CacheInfo
+from .computer_group_spec import ComputerGroupSpec
+from .cache_info import CacheInfo
 

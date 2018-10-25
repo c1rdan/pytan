@@ -23,6 +23,6 @@ class SavedActionList(BaseType):
         self.cache_info = None
         self.saved_action = []
 
-from saved_action import SavedAction
-from cache_info import CacheInfo
+from .saved_action import SavedAction
+from .cache_info import CacheInfo
 

@@ -23,6 +23,6 @@ class ComputerGroupList(BaseType):
         self.cache_info = None
         self.computer_group = []
 
-from computer_group import ComputerGroup
-from cache_info import CacheInfo
+from .computer_group import ComputerGroup
+from .cache_info import CacheInfo
 

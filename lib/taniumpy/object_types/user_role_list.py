@@ -23,5 +23,5 @@ class UserRoleList(BaseType):
         
         self.role = []
 
-from user_role import UserRole
+from .user_role import UserRole
 

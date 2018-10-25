@@ -27,5 +27,5 @@ class UserRole(BaseType):
         self.permissions = None
         
 
-from permission_list import PermissionList
+from .permission_list import PermissionList
 

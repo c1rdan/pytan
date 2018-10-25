@@ -1,10 +1,14 @@
+from __future__ import absolute_import
 # Copyright (c) 2015 Tanium Inc
 #
 
+from builtins import str
+from builtins import object
+
+import re
 import csv
 import io
 import json
-import re
 try:
     import xml.etree.cElementTree as ET
 except:
@@ -41,7 +45,7 @@ class BaseType(object):
 
         """
         if len(self._list_properties) == 1:
-            return getattr(self, self._list_properties.items()[0][0])[n]
+            return getattr(self, list(self._list_properties.items())[0][0])[n]
         else:
             raise Exception(
                 'Not simply a list type, __getitem__ not supported'
@@ -55,7 +59,7 @@ class BaseType(object):
 
         """
         if len(self._list_properties) == 1:
-            return len(getattr(self, self._list_properties.items()[0][0]))
+            return len(getattr(self, list(self._list_properties.items())[0][0]))
         else:
             raise Exception('Not simply a list type, len() not supported')
 
@@ -102,7 +106,7 @@ class BaseType(object):
 
         """
         if len(self._list_properties) == 1:
-            getattr(self, self._list_properties.items()[0][0]).append(n)
+            getattr(self, list(self._list_properties.items())[0][0]).append(n)
         else:
             raise Exception(
                 'Not simply a list type, append not supported'
@@ -117,7 +121,7 @@ class BaseType(object):
                 el.text = str(val)
             if val is not None or not minimal:
                 root.append(el)
-        for p, t in self._complex_properties.iteritems():
+        for p, t in self._complex_properties.items():
             val = getattr(self, p)
             if val is not None or not minimal:
                 if val is not None and not isinstance(val, t):
@@ -136,7 +140,7 @@ class BaseType(object):
                     root.append(el)
                     if val is not None:
                         el.append(str(val))
-        for p, t in self._list_properties.iteritems():
+        for p, t in self._list_properties.items():
             vals = getattr(self, p)
             if not vals:
                 continue
@@ -162,13 +166,13 @@ class BaseType(object):
     @classmethod
     def fromSOAPElement(cls, el): # noqa
         result = cls()
-        for p, t in result._simple_properties.iteritems():
+        for p, t in result._simple_properties.items():
             pel = el.find("./{}".format(p))
             if pel is not None and pel.text:
                 setattr(result, p, t(pel.text))
             else:
                 setattr(result, p, None)
-        for p, t in result._complex_properties.iteritems():
+        for p, t in result._complex_properties.items():
             elems = el.findall('./{}'.format(p))
             if len(elems) > 1:
                 raise Exception(
@@ -182,7 +186,7 @@ class BaseType(object):
                 )
             else:
                 setattr(result, p, None)
-        for p, t in result._list_properties.iteritems():
+        for p, t in result._list_properties.items():
             setattr(result, p, [])
             elems = el.findall('./{}'.format(p))
             for elem in elems:
@@ -207,7 +211,7 @@ class BaseType(object):
             return None  # no results, not an error
         # based on the tag of the matching element,
         # find the appropriate tanium_type and deserialize
-        from object_list_types import OBJECT_LIST_TYPES
+        from .object_list_types import OBJECT_LIST_TYPES
         if result_object.tag not in OBJECT_LIST_TYPES:
             raise Exception('Unknown type {}'.format(result_object.tag))
         r = OBJECT_LIST_TYPES[result_object.tag].fromSOAPElement(result_object)
@@ -223,7 +227,7 @@ class BaseType(object):
                     '_'.join([prefix, str(i)]))
                 )
         elif type(val) == dict:
-            for k, v in val.iteritems():
+            for k, v in val.items():
                 result.update(self.flatten_jsonable(
                     v,
                     '_'.join([prefix, k] if prefix else k))
@@ -245,7 +249,7 @@ class BaseType(object):
         """
         result = {}
         prop_start = '{}_'.format(prefix) if prefix else ''
-        for p, _ in self._simple_properties.iteritems():
+        for p, _ in self._simple_properties.items():
             val = getattr(self, p)
             if val is not None:
                 json_out = None
@@ -255,14 +259,14 @@ class BaseType(object):
                     result.update(json_out)
                 else:
                     result['{}{}'.format(prop_start, p)] = val
-        for p, _ in self._complex_properties.iteritems():
+        for p, _ in self._complex_properties.items():
             val = getattr(self, p)
             if val is not None:
                 result.update(val.to_flat_dict(
                     prefix='{}{}'.format(prop_start, p),
                     explode_json_string_values=explode_json_string_values,
                 ))
-        for p, _ in self._list_properties.iteritems():
+        for p, _ in self._list_properties.items():
             val = getattr(self, p)
             if val is not None:
                 for ind, item in enumerate(val):
@@ -286,7 +290,7 @@ class BaseType(object):
         result = {}
         if include_type:
             result['_type'] = self._soap_tag
-        for p, _ in self._simple_properties.iteritems():
+        for p, _ in self._simple_properties.items():
             val = getattr(self, p)
             if val is not None:
                 json_out = None
@@ -296,13 +300,13 @@ class BaseType(object):
                     result[p] = json_out
                 else:
                     result[p] = val
-        for p, _ in self._complex_properties.iteritems():
+        for p, _ in self._complex_properties.items():
             val = getattr(self, p)
             if val is not None:
                 result[p] = val.to_jsonable(
                     explode_json_string_values=explode_json_string_values,
                     include_type=include_type)
-        for p, _ in self._list_properties.iteritems():
+        for p, _ in self._list_properties.items():
             val = getattr(self, p)
             if val is not None:
                 result[p] = []
@@ -340,15 +344,15 @@ class BaseType(object):
     def _from_json(cls, jsonable):
         """Private helper to parse from JSON after type is instantiated"""
         result = cls()
-        for p, t in result._simple_properties.iteritems():
+        for p, t in result._simple_properties.items():
             val = jsonable.get(p)
             if val is not None:
                 setattr(result, p, t(val))
-        for p, t in result._complex_properties.iteritems():
+        for p, t in result._complex_properties.items():
             val = jsonable.get(p)
             if val is not None:
                 setattr(result, p, BaseType.from_jsonable(val))
-        for p, t in result._list_properties.iteritems():
+        for p, t in result._list_properties.items():
             val = jsonable.get(p)
             if val is not None:
                 vals = []
@@ -380,7 +384,7 @@ class BaseType(object):
         elif type(jsonable) == dict:
             if not jsonable.get('_type'):
                 raise Exception('JSON must contain _type to be deserialized')
-            from object_list_types import OBJECT_LIST_TYPES
+            from .object_list_types import OBJECT_LIST_TYPES
             if jsonable['_type'] not in OBJECT_LIST_TYPES:
                 raise Exception('Unknown type {}'.format(jsonable['_type']))
             result = OBJECT_LIST_TYPES[jsonable['_type']]._from_json(jsonable)

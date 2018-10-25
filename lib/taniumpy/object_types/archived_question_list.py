@@ -23,5 +23,5 @@ class ArchivedQuestionList(BaseType):
         
         self.archived_question = []
 
-from archived_question import ArchivedQuestion
+from .archived_question import ArchivedQuestion
 

@@ -7,6 +7,10 @@
 Last validated to work with:
 - Python 2.7.5
 '''
+from __future__ import print_function
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 __author__ = 'Jim Olsen (jim@lifehack.com)'
 __version__ = '2.1.0'
 
@@ -26,10 +30,11 @@ import collections
 import getpass
 import fnmatch
 import glob
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 from argparse import ArgumentDefaultsHelpFormatter as A1  # noqa
 from argparse import RawDescriptionHelpFormatter as A2  # noqa
-from urllib2 import Request, urlopen, HTTPError, URLError
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -40,9 +45,9 @@ my_dir = os.path.dirname(my_file)
 
 pname = os.path.splitext(os.path.basename(sys.argv[0]))[0]
 
-print(
+print((
     '{} v{} by {}'
-).format(pname, __version__, __author__)
+).format(pname, __version__, __author__))
 
 
 '''
@@ -181,7 +186,7 @@ class MyParser(argparse.ArgumentParser):
         sys.exit(2)
 
 
-class MDTest():
+class MDTest(object):
 
     C_SECT = 'CONFIG'
     VALMSG = 'valid_msg'
@@ -404,7 +409,7 @@ class MDTest():
         if not content:
             logging.debug("No content to create in {}".format(sectname))
             return
-        for k, v in content.iteritems():
+        for k, v in content.items():
             fn = v.get('cname', '')
             ftext = v.get('ctext', '')
             if not fn:
@@ -621,7 +626,7 @@ class MDTest():
         self.md_addmh()
         self.md_addtoc()
 
-        for sectname, sectdict in self.t.iteritems():
+        for sectname, sectdict in self.t.items():
             self.md_addsecth(sectname, sectdict)
             self.md_addnotes(sectname, sectdict)
             self.md_addcontent(sectname, sectdict)
@@ -719,7 +724,7 @@ class MDTest():
         if not content:
             logging.debug("No content to output in {}".format(sectname))
             return
-        for k, v in content.iteritems():
+        for k, v in content.items():
             fn = v.get('cname', '')
             ftext = v.get('ctext', '')
             ftype = v.get('ctype', '')
@@ -875,8 +880,8 @@ class MDTest():
                 logging.error(
                     'Github API auth failed. Please check your OAuth token.')
             else:
-                print e.code
-                print e
+                print(e.code)
+                print(e)
                 logging.error('Github API responded in an unfashion way :/')
         except URLError:
             gfm_html = self.gfm_curl(data)

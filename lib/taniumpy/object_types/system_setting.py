@@ -41,6 +41,6 @@ class SystemSetting(BaseType):
         self.metadata = None
         
 
-from audit_data import AuditData
-from metadata_list import MetadataList
+from .audit_data import AuditData
+from .metadata_list import MetadataList
 
